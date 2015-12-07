@@ -1,15 +1,15 @@
 ###Resume
-I had a great experience while doing this Experiential Learning. Nonetheless this was quite challenging. I learned a lot about server and what tools to use to monitor the performance of a server. The Lagotto project is quite ambitious and I really like their vison. They are doing metrics with a large scope of resources (i.e. Twitter, wikipedia, Reddit etc.). It's a Scopus or a SemanticScolar but wider. My reflection was that publishers need a a server in order to post their contents (scholarly articles) or will require a service for their server. Meaning that a publisher could require the Lagotto web application to provide more functionnality and help the user to find more metrics about citations. I provide below a details documentation of what I accomplished. In regards of the objectives of fidings way or solution to resolve the downtime issues of the server. I pretty much fail or was incapable to solve that issues. I took many approaches. First I analysed the **production.log** file to correct any errors found, then I analysed into **sidekiq.log** to found issue due to failed background jobs, then I looked into **redis**, then I added a **swapfile** of 4GB. But none of this approached had resolved the downtime issues that the server face sometimes. 
+I had a great experience while doing this Experiential Learning. I learned a lot about servers and what tools to use to monitor the performance of a server. The Lagotto project is quite **ambitious** and I really like their vison. They are providing a metrics services with a large scope of information retrieval in differents sources  (i.e. Twitter, wikipedia, Reddit etc.). It's a [Scopus](http://www.scopus.com/) or a [SemanticScolar](https://www.semanticscholar.org/) but wider. My reflection was that publishers need a a server in order to post their contents (scholarly articles) or will require a service like Lagotto for their server. Meaning that a publisher could require the Lagotto web application to provide more functionnality and help the user to evaluate efficiently the different impact that a paper have in the internet. I provide below a details documentation of what I accomplished. In regards of the objectives of fidings way or solution to resolve the downtime issues of the server, I was incapable to solve that issues. I took many approaches. First I analysed the **production.log** file to correct any errors found, then I analysed into **sidekiq.log** to found issue due to failed background jobs, then I looked into **redis**, then I added a **swapfile** of 4GB. But none of this approached couldn't point out the root causes analysis of the downtime issues that the server face sometimes. 
 
 ##1 What was my mission
 
-objective
+objective (Dr. Morrison)
 <ul>
-	<li>- 30 hours work is the expected maximum</li>
-	<li>- time frame: completion by end of Nov. 2015 (some flexibility to extend)</li>
-	<li>- deliverable to be determined by the two of you based on project selection</li>
-	<li>- 1-page paper summarizing the project to be submitted to myself for marking purposes</li>
-	<li>- marking: pass / fail based on confirmation by supervisor (Dr. Felczak) of completion </li>
+	<li> 30 hours work is the expected maximum</li>
+	<li> time frame: completion by end of Nov. 2015 (some flexibility to extend)</li>
+	<li> deliverable to be determined by the two of you based on project selection</li>
+	<li> 1-page paper summarizing the project to be submitted to myself for marking purposes</li>
+	<li>  	 marking: pass / fail based on confirmation by supervisor (Dr. Felczak) of completion </li>
 </ul>
 
 ##1.1 Project : Lagotto
@@ -18,15 +18,14 @@ objective
     [http://lagotto.io/](http://lagotto.io)<br/>
     [https://github.com/lagotto/lagotto](https://github.com/lagotto/lagotto)
     
-**date presented the project**: Sept 24 <br/>
-**Date start working on the project**: November 1st <br/>
+**Date start working on the project**: +-November 1st <br/>
 **Date to start Experiential Learning**: November 1st <br />
-**Follow up**: November 6th
+**Date finish**: +-November 28th
 
 ####1.1.2 Project objective
 
 This project objective is the latest one that I receive before starting the project.
-[Oct 20]
+[Notes 10. Dr. Alperin]
 
 <ol>
 <li>The server itself has been going down (giving a 502 error). Doing a diagnostic of the server (figuring out what might have failed, what we might be able to do to fix it) would be extremely useful. 
@@ -38,27 +37,27 @@ This project objective is the latest one that I receive before starting the proj
 
 ####1.1.3 [Communication] The persons who I communicate with or the ressource that I uses
     1.Pkp
-        *Michael Felczak (Pkp)
-        *Juan Pablo Alperin (Supervisor)
+        *Michael Felczak (Pkp-Supervisor)
+        *Juan Pablo Alperin (Lagotto-Supervisor)
         *Jason Nugen (ssh issue)
-    2.Other
+    2.Other resources use
         *Stackoverflow
         *IRC #redis channel
 
 ##What did I do (detailed documentation)
 
 
-I officially started to work on the server by Nov 29. Because it was by that time that I could login to the server [**notes 1**]. But, by Nov 21st due that my supervisor told me that the server had some downtime I add an entry on [uptimerobot](https://uptimerobot.com/) so that I could check the frequency of the downtimes. So between those 2 dates we had only 1 downtime which was on Nov 29th [**notes 2**].  
+I officially started to work on the server by Oct 29. Because it was by that time that I could login to the server **notes 1**. But previously, by Nov 21st, due that my supervisor told me that the server had some downtime I added an entry on [uptimerobot](https://uptimerobot.com/) so that I could check the frequency of the downtimes. So between those 2 dates we had only 1 downtime which was on Nov 29th [**notes 2**].  
 
 
-So the same day (Nov 29th) I had to delete the **sidekiq.log** file. My  supervisor told me to take a look at it and delete the lines that are unrelevant [**notes 3**]. But I couldn't do so because the server were almost out of disk space. Only a few ko left when I logged in. Meaning that the file **sidekiq.log** took pretty much the 34Gb space left on the disk. I as I couldn't **cat** the file because there were no space left on the disk And as I couldn't download the file (via sftp) because it was taken too much time. I decided to delete the file that same day.
+So the same day (Nov 29th) I had to delete the **sidekiq.log** file. My  supervisor told me to take a look at it and delete the lines that are unrelevant [**notes 3**]. But I couldn't do so because the server were almost out of disk space. Only a few ko left when I logged in. Meaning that the file **sidekiq.log** took pretty much the 34Gb space left on the disk. I as I couldn't **cat** the file because there were no space left on the disk And as I couldn't download the file (via sftp) because it was taken too much time. I decided to delete the file that same day because after a few hours the server would have shut down anyway due to the lack of space left to register logs.
 
 The following week I started to try to solve the issue that Dr Alperin told me about the **docs** [notes 4]. Meaning that on the **production.log** file there were (and still are) an error showing up that keep repeating several times in a day.
 ```ruby
 {"message":"  Couldn't find template for digesting: docs/#{@doc.layout}","@timestamp":"2015-10-28T22:15:05.963+00:00","@version":"1","severity":"ERROR","host":"pkp-alm.lib.sfu.ca"}
 ```
 
-As the error stated, I was sure that there were a template file missing. Even though my objectives was to work on the server as stated by Dr. Alperin. I downloaded the application to my local machine. But when I run the application on development I didn't have this issue on my **development.log** file. So logged in back to the server to debuged the **@doc** variable. I found that there were a **partial** file missing [**notes 5**]. One of this Model field called **layout** [**notes 6 gist**](https://gist.github.com/guinslym/f8fa80efc56c5c350fe7). But even though I create manually some dumb file to mimic the __home.html.erb__ file missing I still had the same issue on the server log **production.log**. So I almost gave up only to find out there were a Github issue opened for that. [**notes 7** see last comment](https://github.com/rails/rails/issues/15255#issuecomment-155953924). Notes that this Github issue is stated as Closed but as other user still has the same issue that why I say that it's open meaning that I didn't find a solution on the Rails documentation. So I finally gave up on that issue.
+As the error stated, I was sure that there were a template file missing. Even though my objectives was to work on the server as stated by Dr. Alperin. I downloaded the application to my local machine. But when I run the application on development I didn't have this issue on my **development.log** file. So I logged in back to the server to debuged the **@doc** variable. I found that there were a **partial** file missing [**notes 5**]. One of this Model field called **layout** [**notes 6 gist**](https://gist.github.com/guinslym/f8fa80efc56c5c350fe7). But even though I create manually some dumb file to mimic the **_home.html.erb** file missing I still had the same issue on the server log **production.log**. So I almost gave up only to find out there were a Github issue opened for that. [**notes 7** see last comment](https://github.com/rails/rails/issues/15255#issuecomment-155953924). Notes that this Github issue is stated as Closed but as other user still has the same issue that why I say that it's open meaning that I didn't find a solution on the Rails documentation. So I finally gave up on that issue.
 
 
 The other issue that I noticed was due to a mysql statement. 
