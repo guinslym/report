@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Calendar heat map</title>
+<script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/cal-heatmap/3.3.10/cal-heatmap.min.js"></script>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/cal-heatmap/3.3.10/cal-heatmap.css" />
+</head>
+<body>
+
+<div id="example-g"></div>
+
+<script type="text/javascript">
+var cal = new CalHeatMap();
+cal.init({
+	itemSelector: "#example-g",
+	domain: "day",
+	subDomain: "hour",
+	rowLimit: 1,
+	domainGutter: 0,
+	data: "datas-years.json",
+	start: new Date(2000, 0, 5),
+	cellSize: 15,
+	cellPadding: 5,
+	range: 7,
+	verticalOrientation: true,
+	displayLegend: true,
+	label: {
+		position: "left",
+		offset: {
+			x: 20,
+			y: 12
+		},
+		width: 110
+	},
+	legend: [1, 2, 3, 4],
+	legendColors: ["#ecf5e2", "#232181"]
+});
+
+</script>
+
+
+</body>
+</html>
