@@ -56,7 +56,7 @@ I officially started to work on the server by Oct 29. Because it was by that tim
 
 So the same day (Nov 29th) I had to delete the **sidekiq.log** file. My  supervisor told me to take a look at it and delete the lines that are unrelevant [**notes 3**]. But I couldn't do so because the server were almost out of disk space. Only a few ko left when I logged in. Meaning that the file **sidekiq.log** took pretty much the 34Gb space left on the disk. I as I couldn't **cat** the file because there were no space left on the disk And as I couldn't download the file (via sftp) because it was taken too much time. I decided to delete the file that same day because after a few hours the server would have shut down anyway due to the lack of space left to register logs.
 
-The following week I started to try to solve the issue that Dr Alperin told me about the **docs** [notes 4]. Meaning that on the **production.log** file there were (and still are) an error showing up that keep repeating several times in a day.
+The following week I started to try to solve the issue that Dr Alperin told me about the **docs**. Meaning that on the **production.log** file there were (and still are) an error showing up that keep repeating several times in a day.
 ```ruby
 {"message":"  Couldn't find template for digesting: docs/#{@doc.layout}","@timestamp":"2015-10-28T22:15:05.963+00:00","@version":"1","severity":"ERROR","host":"pkp-alm.lib.sfu.ca"}
 ```
@@ -100,7 +100,7 @@ Also because of my memory error (**EXECABORT**) I create an **Swapfile** of 4GB 
 
 So neither of my approach: **production.log, sidekiq.log,  redis.conf** or monitor the RAM, worked to solve the server downtime issue. So now I turned to **passenger** itself because I realize that when the server experienced a downtime it's a **passenger** default html page that showed up. 
 
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+![alt text](Sc1.png "Logo Title Text 1")
 
 If it was the Rails application that had an error the error page would have been different. I couldn't investigate that approach because by Nov 19 I couldn't access to the server by ssh anymore. 
 
@@ -119,6 +119,116 @@ Unfortunately I still don't know why the server experience **downtimes**.
 - Jason told me that the server had some downtimes because of the database server. I don't know much about that I couldn't investigate due to the ssh connection issue
 
 
-I calculated that I did about 15 hours on the server by using the unix **last** command and computing only the connection that was access by the Ottawa University and my home router ip. Precisely I did 11.48 hours from Nov 3 to Nov 15. The **last** command has a default limit so I couldn't calculate my connection before Nov 3rd and between Nov 15 and Nov 19 (ssh issue) I didn't download the logs so that I could prove how exactly how many hours. But outside the server I did definetively more then the 15 hours reading docs and experiment (StackOverflow + IRC + dstat + downloading the error logs and analyse them + sidekiq + htop + redis + passenger + man ps + logentries + uptimerobot + rails meeetup (that where I found about logentries and an overview of Sidekiq) + testing an offline version of lagotto app)). 
+I calculated that I did about 15 hours on the server by using the unix **last** command and computing only the connection that was accessed by the Ottawa University ip address or from my home router ip. Precisely I did 11.48 hours from Nov 3 to Nov 15. The **last** command has a default limit so I couldn't calculate my connection before Nov 3rd and between Nov 15 and Nov 19 (ssh issue) I didn't download the logs so that I could prove how exactly how many hours. But outside the server I did definetively more then the 15 hours reading docs and experiment (StackOverflow + IRC + dstat + downloading the error logs and analyse them + sidekiq + htop + redis + passenger + man ps + logentries + uptimerobot + rails meeetup (that where I found about logentries and an overview of Sidekiq) + testing an offline version of lagotto app)). 
 
 This was a great experience like I stated before. What would I have changed? Even though I had good guidance from Dr Alperin and Dr Felzcak if I had to redo the experience I don't think I would have done it because this project requires more time than the 30 hours. I am pretty sure that I did my 30 whithin the first week. Causes I need to read the Lagotto code and understands it. Also with constant email notifications that I receive, several times during a day I had to stop what I am doing and logged into the server. What I mean by that is my colleages, they are working 5 to 8 hours straight, when I am doing an homework or when I  am in class I need to stop and go online and read the logs to find what causes the downtime. So I had a lot of distraction outside of my dedicated time to work on the server. Also my expertise is in programming (ruby or python). But this project was different is was like a system administrator related task. So I didn't had to program much, except to write some **sed**, or **shell** script. The **XMLP** project was more suited for me or for a student because I need to concentrate on application within a project (i.e. debugging the PDFconversion module) instead of the sys admin task that I had. Because the sys admin task require to look or try many directions (redis, application, passenger etc...) and within 30 hours it wasn't possible. And as an intership I tought I was going to work on the development side (source code) but I was working on Production. But the benefit of doing this Experiential Learning compare to my other colleagues is that I was to be autodidact, think outside of the box and try many solutions.
+
+
+
+##Annexe
+
+####Communications
+
+![alt text](m1.png "Logo Title Text 1")
+<hr />
+![alt text](m2.png "Logo Title Text 1")
+<hr />
+![alt text](m3.png "Logo Title Text 1")
+<hr />
+![alt text](m4.png "Logo Title Text 1")
+<hr/>
+###htop
+showing that there is a lot of background jobs that take a lot of memory. There were 376mb left
+![alt text](htop.png "Logo Title Text 1")
+<hr/>
+
+#notes
+in order of apperance in the text 
+
+
+####notes 10
+Dr. Alperin's email Oct 20th
+
+####notes 1 
+Dr Alperin's email Oct 28th
+
+####notes 2
+Csv file downtime.csv
+
+####notes 3 
+Dr Alperin's email Oct 28th
+
+####notes 5 
+exemple was gave two paragraphs down
+
+####notes 6 
+html link given
+
+####notes 7 
+html link given
+
+
+
+###Other information
+```
+ubuntu@pkp-alm:~$ free -mh
+             total       used       free     shared    buffers     cached
+Mem:          3.7G       3.6G        77M        36K       1.5M        17M
+-/+ buffers/cache:       3.6G        96M
+Swap:         4.0G       812M       3.2G 
+
+
+find out what process is using all the RAM?
+ubuntu@pkp-alm:/var/www/lagotto/current/log$  ps -e -o pid,vsz,comm= | sort -n -k 2 | tail -n 40 
+ 1031  32220 avahi-daemon
+ 1030  32348 avahi-daemon
+    1  33516 init
+  937  39224 dbus-daemon
+28701  40172 tlsmgr
+ 1006  43448 systemd-logind
+  431  49896 systemd-udevd
+  370  59636 cron
+17087  59636 cron
+20208  59636 cron
+ 7749  61316 redis-server
+ 1157  61364 sshd
+  883  63748 su
+ 1251  98516 nginx
+ 1254  99812 nginx
+ 1252 100032 nginx
+ 1255 100432 nginx
+ 1253 100488 nginx
+14111 107688 sshd
+14217 107688 sshd
+17509 107692 sshd
+17607 107692 sshd
+  964 256612 rsyslogd
+ 1240 315052 PassengerAgent
+14444 315180 ruby
+  963 358008 beam
+20211 372572 rake
+  373 395304 rake
+17090 396208 rake
+ 1172 405808 memcached
+ 1209 446412 PassengerAgent
+14463 461532 ruby
+ 4651 462392 ruby
+14474 462656 ruby
+10429 463204 ruby
+ 1204 533816 mysqld
+31817 595228 ruby
+31666 601708 ruby
+ 1231 696432 PassengerAgent
+10916 2481736 ruby2.2
+
+ubuntu@pkp-alm:/var/www/lagotto/current/log$ wc -l *.log
+    3968 cron_import.log
+  346333 cron.log
+       0 development.log
+     168 ember-frontend.production.log
+    6236 production.log
+   22568 sidekiq.log
+  379273 total
+```
+
+
