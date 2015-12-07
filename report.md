@@ -1,14 +1,14 @@
 ###Resume
 I had a `great experience` while doing this Experiential Learning. Nonetheless this was quite challenging. I learned a lot about server and what tools to use to monitor the performance of a server. The Lagotto project is quite ambitious and I really like their vison. They are doing metrics with a large scope of resources (i.e. Twitter, wikipedia, Reddit etc.). It's a Scopus or a SemanticScolar but wider. My reflection was that publishers need a a server in order to post their contents (scholarly articles) or will require a service for their server. Meaning that a publisher could require the Lagotto web application to provide more functionnality and help the user to find more metrics about citations. I provide below a details documentation of what I accomplished. In regards of the objectives of fidings way or solution to resolve the downtime issues of the server. I pretty much fail or was incapable to solve that issues. I took many approaches. First I analysed the **production.log** file to correct any errors found, then I analysed into **sidekiq.log** to found issue due to failed background jobs, then I looked into **redis**, then I added a **swapfile** of 4GB. But none of this approached had resolved the downtime issues that the server face sometimes. 
 
-#1 What was my mission
+##1 What was my mission
 
 objective
-- 30 hours work is the expected maximum
-- time frame: completion by end of Nov. 2015 (some flexibility to extend)
-- deliverable to be determined by the two of you based on project selection
-- 1-page paper summarizing the project to be submitted to myself for marking purposes
-- marking: pass / fail based on confirmation by supervisor (Dr. Felczak) of completion 
+	- 30 hours work is the expected maximum
+	- time frame: completion by end of Nov. 2015 (some flexibility to extend)
+	- deliverable to be determined by the two of you based on project selection
+	- 1-page paper summarizing the project to be submitted to myself for marking purposes
+	- marking: pass / fail based on confirmation by supervisor (Dr. Felczak) of completion 
 
 ##1.1 Project : Lagotto
 
@@ -43,12 +43,12 @@ This project objective is the latest one that I receive before starting the proj
         *Stackoverflow
         *IRC #redis channel
 
-#What did I do (detailed documentation)
+##What did I do (detailed documentation)
 
-<p>
+
 I officially started to work on the server by Nov 29. Because it was by that time that I could login to the server [**notes 1**]. But, by Nov 21st due that my supervisor told me that the server had some downtime I add an entry on [uptimerobot](https://uptimerobot.com/) so that I could check the frequency of the downtimes. So between those 2 dates we had only 1 downtime which was on Nov 29th [**notes 2**].  
-</p>
-<p>
+
+
 So the same day (Nov 29th) I had to delete the **sidekiq.log** file. My  supervisor told me to take a look at it and delete the lines that are unrelevant [**notes 3**]. But I couldn't do so because the server were almost out of disk space. Only a few ko left when I logged in. Meaning that the file **sidekiq.log** took pretty much the 34Gb space left on the disk. I as I couldn't **cat** the file because there were no space left on the disk And as I couldn't download the file (via sftp) because it was taken too much time. I decided to delete the file that same day.
 
 The following week I started to try to solve the issue that Dr Alperin told me about the **docs** [notes 4]. Meaning that on the **production.log** file there were (and still are) an error showing up that keep repeating several times in a day.
