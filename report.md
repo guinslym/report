@@ -1,14 +1,16 @@
 ###Resume
-I had a `great experience` while doing this Experiential Learning. Nonetheless this was quite challenging. I learned a lot about server and what tools to use to monitor the performance of a server. The Lagotto project is quite ambitious and I really like their vison. They are doing metrics with a large scope of resources (i.e. Twitter, wikipedia, Reddit etc.). It's a Scopus or a SemanticScolar but wider. My reflection was that publishers need a a server in order to post their contents (scholarly articles) or will require a service for their server. Meaning that a publisher could require the Lagotto web application to provide more functionnality and help the user to find more metrics about citations. I provide below a details documentation of what I accomplished. In regards of the objectives of fidings way or solution to resolve the downtime issues of the server. I pretty much fail or was incapable to solve that issues. I took many approaches. First I analysed the **production.log** file to correct any errors found, then I analysed into **sidekiq.log** to found issue due to failed background jobs, then I looked into **redis**, then I added a **swapfile** of 4GB. But none of this approached had resolved the downtime issues that the server face sometimes. 
+I had a great experience while doing this Experiential Learning. Nonetheless this was quite challenging. I learned a lot about server and what tools to use to monitor the performance of a server. The Lagotto project is quite ambitious and I really like their vison. They are doing metrics with a large scope of resources (i.e. Twitter, wikipedia, Reddit etc.). It's a Scopus or a SemanticScolar but wider. My reflection was that publishers need a a server in order to post their contents (scholarly articles) or will require a service for their server. Meaning that a publisher could require the Lagotto web application to provide more functionnality and help the user to find more metrics about citations. I provide below a details documentation of what I accomplished. In regards of the objectives of fidings way or solution to resolve the downtime issues of the server. I pretty much fail or was incapable to solve that issues. I took many approaches. First I analysed the **production.log** file to correct any errors found, then I analysed into **sidekiq.log** to found issue due to failed background jobs, then I looked into **redis**, then I added a **swapfile** of 4GB. But none of this approached had resolved the downtime issues that the server face sometimes. 
 
 ##1 What was my mission
 
 objective
-	- 30 hours work is the expected maximum
-	- time frame: completion by end of Nov. 2015 (some flexibility to extend)
-	- deliverable to be determined by the two of you based on project selection
-	- 1-page paper summarizing the project to be submitted to myself for marking purposes
-	- marking: pass / fail based on confirmation by supervisor (Dr. Felczak) of completion 
+<ul>
+	<li>- 30 hours work is the expected maximum</li>
+	<li>- time frame: completion by end of Nov. 2015 (some flexibility to extend)</li>
+	<li>- deliverable to be determined by the two of you based on project selection</li>
+	<li>- 1-page paper summarizing the project to be submitted to myself for marking purposes</li>
+	<li>- marking: pass / fail based on confirmation by supervisor (Dr. Felczak) of completion </li>
+</ul>
 
 ##1.1 Project : Lagotto
 
